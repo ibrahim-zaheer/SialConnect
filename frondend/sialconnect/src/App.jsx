@@ -1,13 +1,12 @@
 // frontend/src/App.js
-import React from "react";
-import Auth from "./components/Auth";
-import OAuth from "./components/OAuth";
+import React from 'react';
+import { RouterProvider } from 'react-router-dom';
+import router from '../src/routes/router'; // Import the router configuration
 
 function App() {
   return (
     <div className="App">
-      <Auth />
-      <OAuth/>
+      <RouterProvider router={router} />
     </div>
   );
 }
