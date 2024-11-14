@@ -14,7 +14,7 @@ import { useNavigate, createBrowserRouter,
 
 const Auth = () => {
   const [isRegister, setIsRegister] = useState(true);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "",role: ""  });
   const [message, setMessage] = useState("");
   const dispatch = useDispatch(); 
   const navigate = useNavigate(); 
