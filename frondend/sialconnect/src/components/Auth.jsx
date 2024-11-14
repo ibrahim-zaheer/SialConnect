@@ -34,7 +34,7 @@ const Auth = () => {
       setMessage(data.message || "Login successful!");
   
       if (!isRegister) {
-        const userData = { name: data.name, email: data.email };
+        const userData = { name: data.name, email: data.email, role: data.role  };
         dispatch(setUser(userData));
         localStorage.setItem("user", JSON.stringify(userData)); 
         localStorage.setItem("token", data.token);
@@ -51,10 +51,20 @@ const Auth = () => {
       <h2>{isRegister ? "Register" : "Login"}</h2>
       <form onSubmit={handleSubmit}>
         {isRegister && (
+          <>
           <div>
             <label>Name</label>
             <input type="text" name="name" onChange={handleChange} required />
           </div>
+            <div>
+            <label>Role</label>
+            <select name="role" onChange={handleChange} required>
+              <option value="">Select Role</option>
+              <option value="exporter">Exporter</option>
+              <option value="supplier">Supplier</option>
+            </select>
+          </div>
+          </>
         )}
         <div>
           <label>Email</label>

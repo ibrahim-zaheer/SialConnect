@@ -5,6 +5,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { app } from "../services/firebase";
+import axios from "axios";
+
 
 const OAuth = () => {
   const dispatch = useDispatch();
@@ -40,7 +42,7 @@ const OAuth = () => {
       const data = await res.json();
       if (res.ok) {
         // dispatch your action here if needed
-        navigate("/");
+        navigate("/home");
       }
     } catch (error) {
       console.error(error);
