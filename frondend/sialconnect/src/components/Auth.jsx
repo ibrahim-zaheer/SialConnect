@@ -2,26 +2,32 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { useNavigate, createBrowserRouter,
+import {
+  useNavigate, createBrowserRouter,
   RouterProvider,
   Route,
-  Link } from "react-router-dom";
+  Link
+} from "react-router-dom";
 
-  import { useDispatch } from "react-redux";
-  import { setUser } from "../redux/reducers/userSlice";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/reducers/userSlice";
 
 
 
 const Auth = () => {
   const [isRegister, setIsRegister] = useState(true);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "",role: ""  });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", role: "" });
   const [message, setMessage] = useState("");
-  const dispatch = useDispatch(); 
-  const navigate = useNavigate(); 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
+    console.log("Before Update:", formData); // Debugging the state before update
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log("After Update:", formData); // Debugging the state after update
   };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +50,31 @@ const Auth = () => {
       setMessage(error.response?.data?.message || "An error occurred");
     }
   };
-  
+
+
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log("Submitting Form Data:", formData); // Check formData before sending
+
+  //   if (!formData.role) {
+  //     setMessage("Role is required."); // Inform user if role is not selected
+  //     return;
+  //   }
+
+  //   try {
+  //     const url = isRegister ? "/api/auth/register" : "/api/auth/login";
+  //     const { data } = await axios.post(url, formData);
+  //     console.log("Server Response:", data);
+  //     setMessage(data.message || "Login successful!");
+  //   } catch (error) {
+  //     console.error("Error in Submission:", error.response?.data || error.message);
+  //     setMessage(error.response?.data?.message || "An error occurred");
+  //   }
+  // };
+
+
 
   return (
     <div>
@@ -52,18 +82,19 @@ const Auth = () => {
       <form onSubmit={handleSubmit}>
         {isRegister && (
           <>
-          <div>
-            <label>Name</label>
-            <input type="text" name="name" onChange={handleChange} required />
-          </div>
             <div>
-            <label>Role</label>
-            <select name="role" onChange={handleChange} required>
-              <option value="">Select Role</option>
-              <option value="exporter">Exporter</option>
-              <option value="supplier">Supplier</option>
-            </select>
-          </div>
+              <label>Name</label>
+              <input type="text" name="name" onChange={handleChange} required />
+            </div>
+            <div>
+              <label>Role</label>
+              <select name="role" value={formData.role} onChange={handleChange} required>
+                <option value="">Select Role</option>
+                <option value="exporter">Exporter</option>
+                <option value="supplier">Supplier</option>
+              </select>
+
+            </div>
           </>
         )}
         <div>

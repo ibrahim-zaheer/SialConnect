@@ -10,6 +10,7 @@ const UserProfile = () => {
       <h1>User Profile</h1>
       <p>Name: {user.name || "Guest"}</p>
       <p>Email: {user.email || "No Email Available"}</p>
+      <p>Role: {user.role || "No Role Available"}</p>
     </div>
   );
 };

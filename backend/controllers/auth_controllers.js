@@ -6,19 +6,27 @@ const User = require("../models/user");
 // Register User
 exports.registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        const existingUser = await User.findOne({ email });
-        if (existingUser) return res.status(400).json({ message: "User already exists" });
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ name, email, password: hashedPassword });
-        await user.save();
-
-        res.status(201).json({ message: "User registered successfully" });
+      console.log("Request Body:", req.body); // Log request body
+      const { name, email, password, role } = req.body;
+  
+      if (!role || !["exporter", "supplier"].includes(role)) {
+        return res.status(400).json({ message: "Invalid or missing role" });
+      }
+  
+      const existingUser = await User.findOne({ email });
+      if (existingUser) return res.status(400).json({ message: "User already exists" });
+  
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = new User({ name, email, password: hashedPassword, role });
+      await user.save();
+  
+      res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      console.error("Error during registration:", error); // Log server-side error
+      res.status(500).json({ message: error.message });
     }
-};
+  };
+  
 
 // Login User
 exports.loginUser = async (req, res) => {
@@ -31,7 +39,7 @@ exports.loginUser = async (req, res) => {
         if (!isPasswordValid) return res.status(400).json({ message: "Invalid password" });
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ token, userId: user._id,name: user.name,email:user.email });
+        res.json({ token, userId: user._id,name: user.name,email:user.email,role:user.role });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -39,7 +47,7 @@ exports.loginUser = async (req, res) => {
 
 // Google Sign In
 exports.googleSignIn = async (req, res, next) => {
-    const { name, email, googlePhotoUrl } = req.body;
+    const { name, email,role, googlePhotoUrl } = req.body;
 
     try {
         const user = await User.findOne({ email });
@@ -60,6 +68,7 @@ exports.googleSignIn = async (req, res, next) => {
                 email: email,
                 password: hashedPassword,
                 profilePicture: googlePhotoUrl,
+                role:role
             });
             await newUser.save();
 
