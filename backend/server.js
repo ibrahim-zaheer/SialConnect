@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 
 const authRoutes = require('./routes/auth');
 
+const supplierRoutes = require('./routes/supplier/supplierRoutes')
+
 // Initialize dotenv to access environment variables
 dotenv.config();
 
@@ -32,3 +34,5 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/auth", authRoutes);
+
+app.use("/supplier",supplierRoutes)
