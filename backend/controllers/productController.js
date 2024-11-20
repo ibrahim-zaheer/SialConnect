@@ -2,6 +2,32 @@ const Product = require("../models/Product");
 const User = require("../models/user");
 
 // Create a Product
+// exports.createProduct = async (req, res) => {
+//     try {
+//         const { name, description, price } = req.body;
+
+//         // Check if the logged-in user is a supplier
+//         if (req.user.role !== "supplier") {
+//             return res.status(403).json({ message: "Only suppliers can create products." });
+//         }
+
+//         const product = new Product({
+//             name,
+//             description,
+//             price,
+//             supplier: req.user.id, // Assign the product to the logged-in supplier
+//         });
+
+//         await product.save();
+//         res.status(201).json({ message: "Product created successfully", product });
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+
+
+
+
 exports.createProduct = async (req, res) => {
     try {
         const { name, description, price } = req.body;
@@ -9,6 +35,11 @@ exports.createProduct = async (req, res) => {
         // Check if the logged-in user is a supplier
         if (req.user.role !== "supplier") {
             return res.status(403).json({ message: "Only suppliers can create products." });
+        }
+
+        // Validate required fields
+        if (!name || !description || !price) {
+            return res.status(400).json({ message: "All fields (name, description, price) are required." });
         }
 
         const product = new Product({
@@ -24,6 +55,11 @@ exports.createProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
+
+
 
 // Update a Product
 exports.updateProduct = async (req, res) => {

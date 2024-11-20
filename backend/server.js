@@ -35,4 +35,4 @@ app.listen(PORT, () => {
 
 app.use("/api/auth", authRoutes);
 
-app.use("/supplier",supplierRoutes)
+app.use("/supplier",supplierRoutes);

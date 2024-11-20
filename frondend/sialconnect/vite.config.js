@@ -13,6 +13,11 @@ export default defineConfig({
         // Optional: rewrite the path if necessary
         // rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/supplier': {
+        target: 'http://localhost:5000', // Proxy for supplier-specific routes
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

@@ -5,5 +5,5 @@ const productRoutes = require("./products/products");
 
 
 
-app.use("/product",productRoutes);
+router.use("/product",productRoutes);
 module.exports = router;
