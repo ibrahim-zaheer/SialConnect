@@ -105,7 +105,7 @@ exports.deleteProduct = async (req, res) => {
             return res.status(403).json({ message: "You are not authorized to delete this product." });
         }
 
-        await product.remove();
+        await Product.findByIdAndDelete(id);
         res.status(200).json({ message: "Product deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
