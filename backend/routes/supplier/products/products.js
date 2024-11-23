@@ -19,4 +19,11 @@ router.post("/create", authenticateMiddleware, productController.createProduct);
 router.put("/update/:id", authenticateMiddleware, productController.updateProduct);
 router.delete("/delete/:id", authenticateMiddleware, productController.deleteProduct);
 
+router.get("/readAllProducts",productController.getAllProducts)
+
+
+// for viewing all the details of the suppliers
+router.get("/:id", productController.getProductDetails);
+
+
 module.exports = router;
