@@ -80,7 +80,7 @@
 
 //             alert(response.data.message); // Notify the user about successful deletion
 
-//             // Remove the deleted product from the local state
+            // Reove the deleted product from the local state
 //             setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
 //         } catch (error) {
 //             console.error("Error deleting product:", error.response?.data || error.message);

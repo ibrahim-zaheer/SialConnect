@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom"; 
 const DisplayProducts = () => {
     const [products, setProducts] = useState([]);
 
@@ -16,6 +16,7 @@ const DisplayProducts = () => {
         };
         fetchProducts();
     }, []);
+   
 
     return (
         <div className="container mt-4">
@@ -28,12 +29,16 @@ const DisplayProducts = () => {
                                 <div className="card-body">
                                     <h5 className="card-title">{product.name}</h5>
                                     <p className="card-text">{product.description}</p>
+                                   
                                     <p className="card-text text-muted">Price: ${product.price}</p>
                                 </div>
                                 <div className="card-footer">
-                                <Link to={`/supplier/product/${product._id}`} className="text-white text-decoration-none">
-        View Details
-    </Link>
+                                <Link 
+                                        to={`/supplier/product/${product._id}`} 
+                                        className="btn btn-primary"
+                                    >
+                                        View Details
+                                    </Link>
                                 </div>
                             </div>
                         </div>
