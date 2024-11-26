@@ -40,7 +40,7 @@ const Auth = () => {
       setMessage(data.message || "Login successful!");
   
       if (!isRegister) {
-        const userData = { name: data.name, email: data.email, role: data.role  };
+        const userData = { name: data.name, email: data.email, role: data.role,profilePicture: data.profilePicture };
         dispatch(setUser(userData));
         localStorage.setItem("user", JSON.stringify(userData)); 
         localStorage.setItem("token", data.token);

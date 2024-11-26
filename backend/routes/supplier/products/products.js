@@ -19,6 +19,9 @@ router.post("/create", authenticateMiddleware, productController.createProduct);
 router.put("/update/:id", authenticateMiddleware, productController.updateProduct);
 router.delete("/delete/:id", authenticateMiddleware, productController.deleteProduct);
 
+
+
+//for reading all the products
 router.get("/readAllProducts",productController.getAllProducts)
 
 
