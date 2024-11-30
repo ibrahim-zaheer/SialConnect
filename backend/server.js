@@ -9,6 +9,7 @@ const supplierRoutes = require('./routes/supplier/supplierRoutes')
 
 // Initialize dotenv to access environment variables
 dotenv.config();
+require('dotenv').config(); 
 
 const app = express();
 const PORT = process.env.PORT || 5000;

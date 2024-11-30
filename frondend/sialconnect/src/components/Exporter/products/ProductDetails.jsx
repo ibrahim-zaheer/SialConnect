@@ -36,6 +36,12 @@ const ProductDetails = () => {
                         <p className="card-text">
                             Supplier: {product.supplier?.name || "Unknown"}
                         </p>
+                        <p className="card-text">
+                            Email Address: {product.supplier?.email || "Unknown"}
+                        </p>
+                        <p className="card-text">
+                           Profile Picture: {product.supplier?.profilePicture|| "Unknown"}
+                        </p>
                         <p className="card-text">Created At: {new Date(product.createdAt).toLocaleString()}</p>
                     </div>
                 </div>

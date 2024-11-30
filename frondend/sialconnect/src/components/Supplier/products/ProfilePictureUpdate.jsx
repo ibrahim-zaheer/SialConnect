@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import { useDispatch } from "react-redux";
+
+import { updateProfilePicture } from "../../../redux/reducers/userSlice";
+
 const ProfilePictureUpdate = () => {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [preview, setPreview] = useState(null);
+  const dispatch = useDispatch(); // Hook to dispatch actions
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -34,6 +39,7 @@ const ProfilePictureUpdate = () => {
       });
 
       setMessage(data.message);
+      dispatch(updateProfilePicture(data.profilePicture));
     } catch (error) {
       setMessage("Error uploading profile picture.");
     }
