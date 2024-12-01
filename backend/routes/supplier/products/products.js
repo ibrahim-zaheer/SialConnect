@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const productController = require("../../../controllers/productController");
 const authenticateMiddleware = require("../../../middleware/authMiddleware")
-
+const {uploadProductImage} = require("../../../config/multerConfig")
 
 // router.get("/read", authenticateMiddleware, productController.getProductsBySupplier);
 
@@ -15,7 +15,7 @@ const authenticateMiddleware = require("../../../middleware/authMiddleware")
 
 
 router.get("/read", authenticateMiddleware, productController.getProductsBySupplier);
-router.post("/create", authenticateMiddleware, productController.createProduct);
+router.post("/create", authenticateMiddleware,uploadProductImage.single("image") ,productController.createProduct);
 router.put("/update/:id", authenticateMiddleware, productController.updateProduct);
 router.delete("/delete/:id", authenticateMiddleware, productController.deleteProduct);
 

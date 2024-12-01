@@ -1,6 +1,8 @@
 const Product = require("../models/Product");
 const User = require("../models/user");
+const {uploadProductImage} = require("../config/multerConfig")
 
+const cloudinary = require("../config/cloudinaryConfig");
 // Create a Product
 // exports.createProduct = async (req, res) => {
 //     try {
@@ -27,7 +29,6 @@ const User = require("../models/user");
 
 
 
-
 exports.createProduct = async (req, res) => {
     try {
         const { name, description, price } = req.body;
@@ -42,11 +43,19 @@ exports.createProduct = async (req, res) => {
             return res.status(400).json({ message: "All fields (name, description, price) are required." });
         }
 
+        // If there is an image, upload it to Cloudinary
+        let imageUrl = '';
+        if (req.file) {
+            imageUrl = req.file.path; // Assuming Cloudinary URL is in 'path'
+        }
+
+        // Create the product with the image URL if it exists
         const product = new Product({
             name,
             description,
             price,
             supplier: req.user.id, // Assign the product to the logged-in supplier
+            image: imageUrl, // Set image URL from Cloudinary
         });
 
         await product.save();
@@ -55,7 +64,6 @@ exports.createProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 
 

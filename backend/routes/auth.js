@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/auth_controllers");
 const profileController = require("../controllers/profile_controller")
-const upload = require('../config/multerConfig');
+const {uploadProfilePicture}= require('../config/multerConfig');
 
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -18,6 +18,6 @@ router.post("/google", authController.googleSignIn);
 
 
 // for profile picture upload
-router.put("/profile-picture", authMiddleware,upload.single('image'),profileController.profilePicture);
+router.put("/profile-picture", authMiddleware,uploadProfilePicture.single('image'),profileController.profilePicture);
 
 module.exports = router;

@@ -94,10 +94,6 @@
 
 
 // when using managecomponet
-
-
-
-
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -106,6 +102,7 @@ const AddProduct = ({ onProductCreated }) => {
         name: "",
         description: "",
         price: "",
+        image: null, // For image file
     });
 
     const [message, setMessage] = useState(""); // Success/Error message
@@ -117,31 +114,50 @@ const AddProduct = ({ onProductCreated }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    // Handle form submission
+    // Handle image upload
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFormData({ ...formData, image: file });
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setMessage("");
+    
+        const form = new FormData();
+        form.append("name", formData.name);
+        form.append("description", formData.description);
+        form.append("price", formData.price);
+        form.append("image", formData.image); // Make sure the image file is being appended
+
+        // Log the data before sending to check what is being sent
+        console.log("Form data being sent:");
+        console.log("Name:", formData.name);
+        console.log("Description:", formData.description);
+        console.log("Price:", formData.price);
+        console.log("Image:", formData.image ? formData.image.name : "No image selected");
 
         try {
             const token = localStorage.getItem("token"); // Fetch token from local storage
             const response = await axios.post(
                 "/supplier/product/create",
-                formData, // Send formData directly as JSON
+                form, // Send the FormData object
                 {
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "multipart/form-data", // This must be set for file uploads
                         Authorization: `Bearer ${token}`, // Pass token for authentication
                     },
                 }
             );
-
+    
             setMessage("Product created successfully!");
-            setFormData({ name: "", description: "", price: "" }); // Reset form
-
-            // Call the parent handler with the newly created product
+            setFormData({ name: "", description: "", price: "", image: null }); // Reset form
+    
             if (onProductCreated) {
-                onProductCreated(response.data.product); // Assuming the API response includes the new product object
+                onProductCreated(response.data.product); // Handle response
             }
         } catch (error) {
             console.error("Error creating product:", error.response?.data || error.message);
@@ -150,6 +166,7 @@ const AddProduct = ({ onProductCreated }) => {
             setLoading(false);
         }
     };
+    
 
     return (
         <div>
@@ -182,6 +199,15 @@ const AddProduct = ({ onProductCreated }) => {
                         value={formData.price}
                         onChange={handleChange}
                         required
+                    />
+                </div>
+                <div>
+                    <label>Product Image</label>
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleImageChange}
                     />
                 </div>
                 <button type="submit" disabled={loading}>

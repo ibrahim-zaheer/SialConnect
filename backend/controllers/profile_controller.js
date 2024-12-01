@@ -2,7 +2,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const upload = require('../config/multerConfig');
+const { uploadProfilePicture } = require("../config/multerConfig");
 const express = require('express');
 
 exports.profilePicture = async (req, res) => {

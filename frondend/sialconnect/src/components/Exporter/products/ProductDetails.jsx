@@ -28,8 +28,8 @@ const ProductDetails = () => {
     return (
         <div className="container mt-4">
             {product ? (
-                <div className="card">
-                    <div className="card-body">
+                <div className="card" style={{ display: 'flex', justifyContent: 'space-between', padding: '20px' }}>
+                    <div className="card-body" style={{ flex: 1 }}>
                         <h1 className="card-title">{product.name}</h1>
                         <p className="card-text">{product.description}</p>
                         <p className="card-text text-muted">Price: ${product.price}</p>
@@ -40,9 +40,34 @@ const ProductDetails = () => {
                             Email Address: {product.supplier?.email || "Unknown"}
                         </p>
                         <p className="card-text">
-                           Profile Picture: {product.supplier?.profilePicture|| "Unknown"}
+                           Profile Picture: {product.supplier?.profilePicture || "Unknown"}
                         </p>
                         <p className="card-text">Created At: {new Date(product.createdAt).toLocaleString()}</p>
+                    </div>
+                    <div className="card-img" style={{ marginLeft: '20px' }}>
+                        {product.supplier?.profilePicture ? (
+                            <img
+                                src={product.supplier.profilePicture} // Profile picture URL
+                                alt="Supplier Logo"
+                                style={{
+                                    width: '60px',
+                                    height: '60px',
+                                    objectFit: 'cover',
+                                    borderRadius: '50%',
+                                }}
+                            />
+                        ) : (
+                            <img
+                                src="https://th.bing.com/th/id/OIP.mpXg7tyCFEecqgUsoW9eQwHaHk?w=206&h=210&c=7&r=0&o=5&pid=1.7" // A default image in case there's no profile picture
+                                alt="Default Logo"
+                                style={{
+                                    width: '60px',
+                                    height: '60px',
+                                    objectFit: 'cover',
+                                    borderRadius: '50%',
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
             ) : (
