@@ -27,7 +27,20 @@ const DisplayProducts = () => {
                         <div key={product._id} className="col-md-4 mb-4">
                             <div className="card h-100">
                                 <div className="card-body">
-                                    <h5 className="card-title">{product.name}</h5>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <h1 className="card-title" style={{ flex: 1 }}>{product.name}</h1>
+                            <img
+                                src={product.image}
+                                alt="Product"
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                    objectFit: 'cover',
+                                    borderRadius: '10px',
+                                    marginLeft: '20px'
+                                }}
+                            />
+                        </div>
                                     <p className="card-text">{product.description}</p>
                                    
                                     <p className="card-text text-muted">Price: ${product.price}</p>

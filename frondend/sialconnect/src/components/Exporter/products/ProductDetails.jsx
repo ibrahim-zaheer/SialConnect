@@ -29,8 +29,21 @@ const ProductDetails = () => {
         <div className="container mt-4">
             {product ? (
                 <div className="card" style={{ display: 'flex', justifyContent: 'space-between', padding: '20px' }}>
-                    <div className="card-body" style={{ flex: 1 }}>
-                        <h1 className="card-title">{product.name}</h1>
+                    <div className="card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <h1 className="card-title" style={{ flex: 1 }}>{product.name}</h1>
+                            <img
+                                src={product.image}
+                                alt="Product"
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                    objectFit: 'cover',
+                                    borderRadius: '10px',
+                                    marginLeft: '20px'
+                                }}
+                            />
+                        </div>
                         <p className="card-text">{product.description}</p>
                         <p className="card-text text-muted">Price: ${product.price}</p>
                         <p className="card-text">
