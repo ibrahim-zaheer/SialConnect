@@ -44,7 +44,7 @@ const OAuth = () => {
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("token", token);
 
-        navigate("/home"); // Redirect to the home page
+        navigate("/roleSelection",{ state: { email: email } }); // Redirect to the home page
       } else {
         console.error("Failed to authenticate user via Google.");
       }

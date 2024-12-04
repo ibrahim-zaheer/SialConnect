@@ -6,6 +6,7 @@ import UserAuth from '../pages/userauthentication';
 import SupplierPage from '../pages/Supplier/SupplierPage';
 import ExporterPage from '../pages/Exporter/ExporterPage';
 import ProductDetails from '../components/Exporter/products/ProductDetails';
+import RoleSelection from '../components/roleSelection';
 
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: '/home',
     element: <HomePage />, // The home path renders HomePage after successful login
+  },
+  {
+    path: '/roleSelection',
+    element: <RoleSelection />, // The home path renders HomePage after successful login
   },
   {
     path: '/Exporter',

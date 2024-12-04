@@ -6,8 +6,7 @@ const SupplierPage = () => {
     return (
         <div>
             <h1>Hello, Supplier!</h1>
-            {/* <AddProduct/>
-            <DisplayProducts/> */}
+            
 
             <ManageProducts/>
         </div>

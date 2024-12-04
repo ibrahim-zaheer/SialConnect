@@ -47,7 +47,7 @@ exports.loginUser = async (req, res) => {
 
 // Google Sign In
 exports.googleSignIn = async (req, res, next) => {
-    const { name, email,role, googlePhotoUrl } = req.body;
+    const { name, email, googlePhotoUrl } = req.body;
 
     try {
         const user = await User.findOne({ email });
@@ -68,7 +68,7 @@ exports.googleSignIn = async (req, res, next) => {
                 email: email,
                 password: hashedPassword,
                 profilePicture: googlePhotoUrl,
-                role:role
+                role:"exporter"
             });
             await newUser.save();
 
@@ -82,6 +82,29 @@ exports.googleSignIn = async (req, res, next) => {
         next(error); // Pass error to the error handling middleware
     }
 };
+
+exports.selectRole = async (req, res, next) => {
+    const { email, role } = req.body;
+
+    try {
+        // Find the user by email and update the role
+        const user = await User.findOneAndUpdate(
+            { email },
+            { role },
+            // Return the updated user
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const { password, ...rest } = user._doc;
+        res.status(200).json(rest);
+    } catch (error) {
+        next(error);
+    }
+};
+
 
 
 

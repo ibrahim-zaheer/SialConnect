@@ -16,6 +16,8 @@ router.post("/login", authController.loginUser);
 // Google Sign-In Route
 router.post("/google", authController.googleSignIn);
 
+router.post("/select-role",authController.selectRole);
+
 
 // for profile picture upload
 router.put("/profile-picture", authMiddleware,uploadProfilePicture.single('image'),profileController.profilePicture);

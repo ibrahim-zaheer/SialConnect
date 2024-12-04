@@ -54,26 +54,6 @@ const Auth = () => {
 
 
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log("Submitting Form Data:", formData); // Check formData before sending
-
-  //   if (!formData.role) {
-  //     setMessage("Role is required."); // Inform user if role is not selected
-  //     return;
-  //   }
-
-  //   try {
-  //     const url = isRegister ? "/api/auth/register" : "/api/auth/login";
-  //     const { data } = await axios.post(url, formData);
-  //     console.log("Server Response:", data);
-  //     setMessage(data.message || "Login successful!");
-  //   } catch (error) {
-  //     console.error("Error in Submission:", error.response?.data || error.message);
-  //     setMessage(error.response?.data?.message || "An error occurred");
-  //   }
-  // };
-
 
 
   return (
