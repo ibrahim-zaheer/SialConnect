@@ -23,8 +23,11 @@ const userSlice = createSlice({
     updateProfilePicture: (state, action) => {
       state.profilePicture = action.payload; // Update profile picture with the new URL
     },
+    changerole:(state,action)=>{
+     state.role = action.payload;
+    },
   },
 });
 
-export const { setUser, clearUser, updateProfilePicture } = userSlice.actions;
+export const { setUser, clearUser, updateProfilePicture,changerole } = userSlice.actions;
 export default userSlice.reducer;
