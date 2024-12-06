@@ -20,12 +20,14 @@ import UserProfile from '../components/UserProfile';
 import PlaceOrder from '../components/PlaceOrder';
 import ExporterPage from './Exporter/ExporterPage';
 import SupplierPage from './Supplier/SupplierPage';
+
 const HomePage = () => {
   const user = useSelector((state) => state.user); 
 
   return (
     <div>
       <h1>Welcome to the Home Page!</h1>
+      
       <UserProfile/>
       <PlaceOrder/>
        <div>

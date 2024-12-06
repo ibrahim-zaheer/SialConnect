@@ -58,7 +58,7 @@ exports.googleSignIn = async (req, res, next) => {
 
             return res.status(200).cookie("access_token", token, {
                 httpOnly: true,
-            }).json(rest);
+            }).json({ ...rest, isNewUser: false, token });
         } else {
             const generatedPassword = Math.random().toString(36).slice(-8);
             const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
@@ -68,38 +68,60 @@ exports.googleSignIn = async (req, res, next) => {
                 email: email,
                 password: hashedPassword,
                 profilePicture: googlePhotoUrl,
-                role:"exporter"
+                role:""
             });
             await newUser.save();
 
             const token = jwt.sign({
                 id: newUser._id,
-            }, process.env.JWT_SECRET);
+                role: newUser.role
+            }, process.env.JWT_SECRET, {
+                expiresIn: "1h",
+            });
+
+
             const { password, ...rest } = newUser._doc;
-            res.status(200).cookie("access_token", token, { httpOnly: true }).json(rest);
+            res.status(200).cookie("access_token", token, { httpOnly: true }).json({ ...rest, isNewUser: true, token });
         }
     } catch (error) {
         next(error); // Pass error to the error handling middleware
     }
 };
 
+
+
+
+
 exports.selectRole = async (req, res, next) => {
     const { email, role } = req.body;
 
     try {
+        // Validate role
+        if (!role || !["exporter", "supplier"].includes(role)) {
+            return res.status(400).json({ message: "Invalid role selected" });
+        }
+
         // Find the user by email and update the role
         const user = await User.findOneAndUpdate(
             { email },
             { role },
-            // Return the updated user
+            { new: true } // Ensure we get the updated user document
         );
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
+        // Generate a new token with the updated role
+        const updatedToken = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        // Respond with the updated user data and new token
         const { password, ...rest } = user._doc;
-        res.status(200).json(rest);
+        res.status(200).json({ ...rest, token: updatedToken });
     } catch (error) {
         next(error);
     }
@@ -108,3 +130,25 @@ exports.selectRole = async (req, res, next) => {
 
 
 
+
+// exports.selectRole = async (req, res, next) => {
+//     const { email, role } = req.body;
+
+//     try {
+//         // Find the user by email and update the role
+//         const user = await User.findOneAndUpdate(
+//             { email },
+//             { role },
+//             // Return the updated user
+//         );
+
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
+
+//         const { password, ...rest } = user._doc;
+//         res.status(200).json(rest);
+//     } catch (error) {
+//         next(error);
+//     }
+// };

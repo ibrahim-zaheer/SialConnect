@@ -15,45 +15,84 @@ const OAuth = () => {
 
   const auth = getAuth(app);
 
+  // const handleGoogleClick = async () => {
+  //   // Prevent additional requests if already authenticating
+  //   if (isAuthenticating) return;
+
+  //   setIsAuthenticating(true); // Set authenticating state to true
+  //   const provider = new GoogleAuthProvider();
+  //   provider.setCustomParameters({ prompt: "select_account" });
+
+  //   try {
+  //     const resultsfromGoogle = await signInWithPopup(auth, provider);
+  //     console.log("Google Sign-In Result:", resultsfromGoogle);
+
+  //     const res = await axios.post("/api/auth/google", {
+  //       name: resultsfromGoogle.user.displayName,
+  //       email: resultsfromGoogle.user.email,
+  //       googlePhotoUrl: resultsfromGoogle.user.photoURL,
+  //     });
+
+  //     if (res.status === 200) {
+  //       const { name, email, role, token } = res.data; // Extract data from the backend response
+  //       const userData = { name, email, role }; // Prepare user data for Redux store
+
+  //       // Update Redux store
+  //       dispatch(setUser(userData));
+
+  //       // Store token and user data in localStorage
+  //       localStorage.setItem("user", JSON.stringify(userData));
+  //       localStorage.setItem("token", token);
+
+  //       navigate("/roleSelection",{ state: { email: email } }); // Redirect to the home page
+  //     } else {
+  //       console.error("Failed to authenticate user via Google.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during Google Sign-In:", error);
+  //   } finally {
+  //     setIsAuthenticating(false); // Re-enable button after completion
+  //   }
+  // };
+
+
+
   const handleGoogleClick = async () => {
-    // Prevent additional requests if already authenticating
     if (isAuthenticating) return;
 
-    setIsAuthenticating(true); // Set authenticating state to true
+    setIsAuthenticating(true);
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
 
     try {
-      const resultsfromGoogle = await signInWithPopup(auth, provider);
-      console.log("Google Sign-In Result:", resultsfromGoogle);
+        const resultsfromGoogle = await signInWithPopup(auth, provider);
+        const res = await axios.post("/api/auth/google", {
+            name: resultsfromGoogle.user.displayName,
+            email: resultsfromGoogle.user.email,
+            googlePhotoUrl: resultsfromGoogle.user.photoURL,
+        });
 
-      const res = await axios.post("/api/auth/google", {
-        name: resultsfromGoogle.user.displayName,
-        email: resultsfromGoogle.user.email,
-        googlePhotoUrl: resultsfromGoogle.user.photoURL,
-      });
+        const { isNewUser, role, token, name, email } = res.data;
 
-      if (res.status === 200) {
-        const { name, email, role, token } = res.data; // Extract data from the backend response
-        const userData = { name, email, role }; // Prepare user data for Redux store
-
-        // Update Redux store
+        // Store user details in Redux and localStorage
+        const userData = { name, email, role };
         dispatch(setUser(userData));
-
-        // Store token and user data in localStorage
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("token", token);
 
-        navigate("/roleSelection",{ state: { email: email } }); // Redirect to the home page
-      } else {
-        console.error("Failed to authenticate user via Google.");
-      }
+        if (isNewUser) {
+            // Redirect to role selection if the user is new
+            navigate("/roleSelection", { state: { email } });
+        } else {
+            // Redirect to home/dashboard if the user already exists
+            navigate("/home");
+        }
     } catch (error) {
-      console.error("Error during Google Sign-In:", error);
+        console.error("Error during Google Sign-In:", error);
     } finally {
-      setIsAuthenticating(false); // Re-enable button after completion
+        setIsAuthenticating(false);
     }
-  };
+};
 
   return (
     <Button
