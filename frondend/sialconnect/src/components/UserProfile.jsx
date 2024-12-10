@@ -2,6 +2,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ProfilePictureUpdate from './Supplier/products/ProfilePictureUpdate';
+import LogoutButton from './LogoutButton';
 
 const UserProfile = () => {
   const user = useSelector((state) => state.user); // Access the user data from the Redux store
@@ -22,7 +23,7 @@ const UserProfile = () => {
       <p>Email: {user.email || "No Email Available"}</p>
       <p>Role: {user.role || "No Role Available"}</p>
       <p>ProfilePicture: {user.profilePicture || "No Picture Available"}</p>
-      
+      <LogoutButton/>
     </div>
   );
 };

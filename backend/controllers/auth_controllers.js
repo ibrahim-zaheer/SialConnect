@@ -68,7 +68,7 @@ exports.googleSignIn = async (req, res, next) => {
                 email: email,
                 password: hashedPassword,
                 profilePicture: googlePhotoUrl,
-                role:""
+                role:"exporter"
             });
             await newUser.save();
 
