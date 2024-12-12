@@ -86,7 +86,7 @@ import ExporterPage from './pages/Exporter/ExporterPage';
 import SupplierPage from './pages/Supplier/SupplierPage';
 import ProductDetails from './components/Exporter/products/ProductDetails';
 import LandingPage from './pages/landingPage';
-
+import { useTranslation, Trans } from 'react-i18next';
 
 const App = () => {
   return (

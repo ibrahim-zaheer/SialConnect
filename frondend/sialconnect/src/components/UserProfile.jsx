@@ -4,11 +4,34 @@ import { useSelector } from 'react-redux';
 import ProfilePictureUpdate from './Supplier/products/ProfilePictureUpdate';
 import LogoutButton from './LogoutButton';
 
+import { useTranslation, Trans } from 'react-i18next';
+import LanguageSelector from '../components/language/language-selector';
+
 const UserProfile = () => {
   const user = useSelector((state) => state.user); // Access the user data from the Redux store
 
+  const { t } = useTranslation();
+
+    const { line1, line2 } = t("description", {
+      channel: "IbrahimZaheer",
+    });
+
   return (
     <div>
+      <>
+      <LanguageSelector />
+         <h1>{t("greeting")}</h1>
+
+         <span>
+           <Trans
+            i18nKey={line1}
+            values={{
+              channel: "RoadsideCoder",
+            }}
+            components={{ 1: <b /> }}
+          />
+        </span>
+      </>
          <div>
         <h3>Profile Picture:</h3>
         <img
